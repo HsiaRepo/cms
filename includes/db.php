@@ -1,15 +1,16 @@
+<!-- Database -->
 <?php
 
-/* Fast Local DB Connection
-
-$connection = mysqli_connect('127.0.0.1', 'root','', 'cms');
-
-if ($connection) {
-
-    echo "Connected!";
-
-}
-
+/** Fast Local DB Connection
+*
+* $connection = mysqli_connect('127.0.0.1', 'root','', 'cms');
+*
+* if ($connection) {
+*
+*    echo "Connected!";
+*
+* }
+*
 */
 
 // TODO move this local host to live server and serve to public

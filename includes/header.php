@@ -1,10 +1,12 @@
+<!-- Header -->
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> <!-- closed in footer.php -->
 
 <head>
 
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Internet Explorer support -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -17,6 +19,7 @@
     <!-- Custom CSS -->
     <link href="css/blog-home.css" rel="stylesheet">
 
+    <!-- Internet Explorer scripts based on conditional comment -->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -26,4 +29,4 @@
 
 </head>
 
-<body>
+<body> <!-- closed in footer.php -->
