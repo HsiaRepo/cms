@@ -36,6 +36,12 @@
 
                 <hr>
 
+            <!-- TODO Pager -->
+            <?php
+            /*
+                include "includes/pager.php"
+            */
+            ?>
 
             </div>
 
