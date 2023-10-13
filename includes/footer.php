@@ -1,4 +1,5 @@
 <!-- Footer -->
+
 <footer>
     <div class="row">
         <div class="col-lg-12">
@@ -9,7 +10,7 @@
     <!-- /.row -->
 </footer>
 
-</div>
+</div> <!-- opened in index.php -->
 <!-- /.container -->
 
 <!-- jQuery -->
@@ -18,6 +19,6 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
 
-</body>
+</body> <!-- opened in header.php -->
 
-</html>
+</html> <!-- opened in header.php -->
