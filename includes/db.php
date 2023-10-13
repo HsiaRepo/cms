@@ -25,7 +25,7 @@ foreach ($db as $key => $value) {
     define(strtoupper($key), $value);
 }
 
-// warning about upper case constants
+// TODO: warning about upper case constants
 $connection = mysqli_connect(DB_HOST, DB_USER,DB_PW, DB_NAME);
 
 // check $connection

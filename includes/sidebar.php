@@ -2,14 +2,35 @@
 <div class="col-md-4">
     <?php
 
+//    TODO explore open/elasticsearch (used in Shopware 6)
+
 //    TODO: Quick Submission Check
 //    check if we have a search submission
     if(isset($_POST['submit'])){
 
-//        echo if we do
         $search = $_POST['search'];
-        echo $search;
 
+//        TODO: Debug/Log echo
+//        echo $search;
+
+//        TODO PCP: datasources configured/defined in db.php
+        $query = "SELECT * FROM posts WHERE post_tags LIKE '%$search%' OR post_title LIKE '%$search%'";
+        $search_query = mysqli_query($connection, $query);
+
+//        Query Error Checking and Handling
+        if(!$search_query) {
+            die("QUERY FAILED" . mysqli_error($connection));
+        }
+
+//        Count results and TODO: loop through
+        $count = mysqli_num_rows($search_query);
+
+//        TODO: Implement logic on database calls
+        if($count == 0) {
+            echo "<h1> NO RESULT </h1>"; // TODO: Debug/Log echo
+        } else {
+            echo "<h1> $count RESULT(S) </h1>"; // TODO: Debug/Log echo
+        }
     }
 
     ?>
@@ -19,7 +40,8 @@
         <h4>Blog Search</h4>
         <form action="" method ="post">
         <div class="input-group">
-            <input name="search" type="text" class="form-control"> <!-- TODO PCP: PHP associate label to input -->
+            <!-- TODO PCP: PHP associate label to input -->
+            <input name="search" type="text" class="form-control">
             <span class="input-group-btn">
                             <button name="submit" class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>

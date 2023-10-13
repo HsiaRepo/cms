@@ -16,14 +16,15 @@
             <div class="col-md-8">
 
                 <h1 class="page-header">
-                    <!-- TODO: -->
+                    <!-- TODO: Filler -->
                     Page Heading
-                    <!-- TODO: -->
+                    <!-- TODO: Filler -->
                     <small>Page Subheading</small>
                 </h1>
 
                 <?php
 
+//                TODO PCP: datasources configured/defined in db.php
 //                Query all posts
                 $query = "SELECT * FROM posts";
                 $select_all_posts_query = mysqli_query($connection, $query);
