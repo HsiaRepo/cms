@@ -16,9 +16,7 @@
         <div class="col-md-8">
 
             <h1 class="page-header">
-                <!-- TODO: Filler -->
                 Page Heading
-                <!-- TODO: Filler -->
                 <small>Page Subheading</small>
             </h1>
 

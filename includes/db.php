@@ -13,8 +13,7 @@
  *
  */
 
-// TODO move this local host to live server and serve to public
-// TODO ?: hardcoded and exposed and only at the start of the project
+// TODO live server
 $db['db_host'] = '127.0.0.1';
 $db['db_user'] = 'root';
 $db['db_pw'] = '';
@@ -25,7 +24,6 @@ foreach ($db as $key => $value) {
     define(strtoupper($key), $value);
 }
 
-// TODO ?: warning about upper case constants
 $connection = mysqli_connect(DB_HOST, DB_USER, DB_PW, DB_NAME);
 
 // check $connection

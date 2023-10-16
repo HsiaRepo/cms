@@ -10,15 +10,15 @@
     <!-- /.row -->
 </footer>
 
-</div> <!-- TODO ?: opened in index.php -->
+</div>
 <!-- /.container -->
 
 <!-- jQuery -->
-<script src="js/jquery.js"></script> <!-- TODO ?: Resolution issue -->
+<script src="js/jquery.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script> <!-- TODO ?: Resolution issue -->
+<script src="js/bootstrap.min.js"></script>
 
-</body> <!-- TODO ?: opened in header.php -->
+</body>
 
-</html> <!-- TODO ?: opened in header.php -->
+</html>
