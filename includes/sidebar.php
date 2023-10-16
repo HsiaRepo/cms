@@ -18,19 +18,15 @@
 
     <!-- Blog Categories Well -->
     <div class="well">
-        <?php
-
-        $query = "SELECT * FROM categories";
-        $select_categories_sidebar = mysqli_query($connection, $query);
-
-        ?>
-
         <h4>Blog Categories</h4>
         <div class="row">
             <div class="col-lg-12">
                 <ul class="list-unstyled">
                     <?php
 
+                    // Query for Categories
+                    $query = "SELECT * FROM categories LIMIT 12";
+                    $select_categories_sidebar = mysqli_query($connection, $query);
                     while ($row = mysqli_fetch_assoc($select_categories_sidebar)) {
                         $cat_title = $row['cat_title'];
 
