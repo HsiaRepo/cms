@@ -4,9 +4,8 @@
     <!-- Blog Search Well -->
     <div class="well">
         <h4>Blog Search</h4>
-        <form action="search.php" method="post"> <!-- TODO ?: Resolution issue -->
+        <form action="search.php" method="post">
             <div class="input-group">
-                <!-- TODO ?: PHP associate label to input -->
                 <input name="search" type="text" class="form-control">
                 <span class="input-group-btn">
                             <button name="submit" class="btn btn-default" type="submit">
@@ -21,8 +20,6 @@
     <div class="well">
         <?php
 
-        //  TODO ?: datasources configured in db.php
-        //  TODO: scalabilty of * categories warning
         $query = "SELECT * FROM categories";
         $select_categories_sidebar = mysqli_query($connection, $query);
 

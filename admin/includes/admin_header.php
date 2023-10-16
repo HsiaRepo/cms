@@ -1,5 +1,8 @@
 <!-- Header -->
 
+<!-- Output Buffering -->
+<?php ob_start(); ?>
+
 <!-- database connection -->
 <?php include "../includes/db.php"?>
 
