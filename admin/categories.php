@@ -95,6 +95,7 @@
                                 ?>
 
                                 <?php
+                                
                                 if (isset($_GET['delete'])){
                                     $delete_cat_id = $_GET['delete'];
                                     $query = "DELETE FROM categories WHERE cat_id = {$delete_cat_id} ";
