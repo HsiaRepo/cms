@@ -22,7 +22,7 @@
                             <i class="fa fa-dashboard"></i> <a href="index.php">Dashboard</a>
                         </li>
                         <li class="active">
-                            <i class="fa fa-file"></i> Idex
+                            <i class="fa fa-file"></i> Index
                         </li>
                     </ol>
                 </div>
