@@ -2,66 +2,67 @@
 <?php include "includes/db.php"; ?>
 
 <!-- Header -->
-<?php include "includes/header.php"?>
+<?php include "includes/header.php" ?>
 
-    <!-- Navigation -->
-    <?php include "includes/navigation.php"?>
+<!-- Navigation -->
+<?php include "includes/navigation.php" ?>
 
-    <!-- Page Content -->
-    <div class="container">
+<!-- Page Content -->
+<div class="container">
 
-        <div class="row">
+    <div class="row">
 
-            <!-- Blog Entries Column -->
-            <div class="col-md-8">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8">
 
-                <h1 class="page-header">
-                    <!-- TODO: Filler -->
-                    Page Heading
-                    <!-- TODO: Filler -->
-                    <small>Page Subheading</small>
-                </h1>
+            <h1 class="page-header">
+                <!-- TODO: Filler -->
+                Page Heading
+                <!-- TODO: Filler -->
+                <small>Page Subheading</small>
+            </h1>
 
-                <?php
+            <?php
 
-//                TODO PCP: datasources configured/defined in db.php
-//                Query all posts
-                $query = "SELECT * FROM posts";
-                $select_all_posts_query = mysqli_query($connection, $query);
+            //  TODO ?: datasources configured/defined in db.php
+            //  Query all posts
+            $query = "SELECT * FROM posts";
+            $select_all_posts_query = mysqli_query($connection, $query);
 
-//                Show all posts with while loop
-                while ($row = mysqli_fetch_assoc($select_all_posts_query)) {
-                    $post_title = $row['post_title'];
-                    $post_author = $row['post_author'];
-                    $post_date = $row['post_date'];
-                    $post_image = $row['post_image'];
-                    $post_content = $row['post_content'];
-
-                    ?>
-
-                    <!-- Exit PHP tags to fill in HTML (still in while loop) -->
-
-                    <!-- First Blog Post -->
-                    <h2>
-                        <a href="#"><?php echo $post_title?></a>
-                    </h2>
-                    <p class="lead">
-                        by <a href="index.php"><?php echo $post_author?></a>
-                    </p>
-                    <p><span class="glyphicon glyphicon-time"></span> <?php echo $post_date?></p>
-                    <hr>
-                    <img class="img-responsive" src="images/<?php echo $post_image?>" alt="">
-                    <hr>
-                    <p><?php echo $post_content?></p>
-                    <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
-                    <hr>
-
-                <?php
-
-                }
+            //  Show all posts with while loop
+            while ($row = mysqli_fetch_assoc($select_all_posts_query)) {
+                $post_title = $row['post_title'];
+                $post_author = $row['post_author'];
+                $post_date = $row['post_date'];
+                $post_image = $row['post_image'];
+                $post_content = $row['post_content'];
 
                 ?>
+
+                <!-- Exit PHP tags to fill in HTML (still in while loop) -->
+
+                <!-- First Blog Post -->
+                <h2>
+                    <a href="#"><?php echo $post_title ?></a>
+                </h2>
+                <p class="lead">
+                    by <a href="index.php"><?php echo $post_author ?></a>
+                </p>
+                <p><span class="glyphicon glyphicon-time"></span> <?php echo $post_date ?></p>
+                <hr>
+                <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="">
+                <hr>
+                <p><?php echo $post_content ?></p>
+                <a class="btn btn-primary" href="#">Read More <span
+                            class="glyphicon glyphicon-chevron-right"></span></a>
+
+                <hr>
+
+                <?php
+
+            }
+
+            ?>
 
 
             <!-- TODO Pager -->
@@ -71,14 +72,14 @@
             */
             ?>
 
-            </div>
-
-            <?php include "includes/sidebar.php" ?>
-
         </div>
-        <!-- /.row -->
 
-        <hr>
+        <?php include "includes/sidebar.php" ?>
 
-        <!-- Footer -->
+    </div>
+    <!-- /.row -->
+
+    <hr>
+
+    <!-- Footer -->
     <?php include "includes/footer.php" ?>
