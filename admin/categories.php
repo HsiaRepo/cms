@@ -20,39 +20,8 @@
 
                     <div class="col-xs-6">
 
-                        <?php
-
-                        if (isset($_POST['submit'])) {
-
-                            // TODO Checking if user submits
-                            // echo "<h1>Hello!</h1>";
-
-                            $cat_title = $_POST['cat_title'];
-
-                            if ($cat_title == "" || empty($cat_title)) {
-
-                                echo "This field should not be empty!";
-
-                            } else {
-
-                                // TODO Add Logic
-                                $query = "INSERT INTO categories(cat_title) VALUES (?)";
-                                $stmt = mysqli_prepare($connection, $query);
-
-                                // Bind the parameter
-                                mysqli_stmt_bind_param($stmt, 's', $cat_title);
-
-                                // Execute the statement
-                                $result = mysqli_stmt_execute($stmt);
-
-                                if (!$result) {
-                                    die('QUERY FAILED' . mysqli_error($connection));
-                                }
-
-                            }
-                        }
-
-                        ?>
+                        <!-- Insert categories function -->
+                        <?php insertCategories(); ?>
 
                         <!-- Add Category -->
                         <form action="" method="post">
@@ -67,6 +36,7 @@
 
                         <?php
 
+                        // Update Category
                         if (isset($_GET['edit'])) {
                             $cat_id = $_GET['edit'];
                             include "includes/update_categories.php";
@@ -88,62 +58,10 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <?php
-
-                                // Query all categories
-                                $query = "SELECT * FROM categories";
-                                $stmt = mysqli_prepare($connection, $query);
-
-                                // Execute the statement
-                                mysqli_stmt_execute($stmt);
-
-                                // Get result
-                                $result = mysqli_stmt_get_result($stmt);
-
-                                while ($row = mysqli_fetch_assoc($result)) {
-
-                                    // Get and Print category id and title
-                                    $cat_id = $row['cat_id'];
-                                    $cat_title = $row['cat_title'];
-
-                                    echo "<tr>";
-                                    echo "<td>{$cat_id}</td>";
-                                    echo "<td>{$cat_title}</td>";
-                                    echo "<td><a href='categories.php?delete={$cat_id}'>Delete</a></td>";
-                                    echo "<td><a href='categories.php?edit={$cat_id}'>Edit</a></td>";
-                                    echo "</tr>";
-
-                                }
-
-                                ?>
-
-                                <?php
-
-                                // Delete Query
-                                if (isset($_GET['delete'])) {
-
-                                    $delete_cat_id = $_GET['delete'];
-                                    $query = "DELETE FROM categories WHERE cat_id = ? ";
-
-                                    $stmt = mysqli_prepare($connection, $query);
-
-                                    // Bind the parameter
-                                    mysqli_stmt_bind_param($stmt, 'i', $delete_cat_id);
-
-                                    // Execute the statement
-                                    $result = mysqli_stmt_execute($stmt);
-
-                                    if (!$result) {
-
-                                        die('QUERY FAILED' . mysqli_error($connection));
-
-                                    }
-
-                                    header("Location: categories.php");
-
-                                }
-
-                                ?>
+                                <!-- find categories function -->
+                                <?php findAllCategories(); ?>
+                                <!-- delete categories function -->
+                                <?php deleteCategories(); ?>
                             </tr>
                             </tbody>
                         </table>
