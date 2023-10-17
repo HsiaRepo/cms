@@ -19,11 +19,12 @@
                     </h1>
 
                     <div class="col-xs-6">
+
                         <?php
 
                         if (isset($_POST['submit'])) {
 
-                            // Checking if user submits
+                            // TODO Checking if user submits
                             // echo "<h1>Hello!</h1>";
 
                             $cat_title = $_POST['cat_title'];
@@ -35,23 +36,25 @@
                             } else {
 
                                 // TODO Add Logic
-                                $query = "INSERT INTO categories(cat_title) ";
-                                $query.= "VALUE('{$cat_title}')";
+                                $query = "INSERT INTO categories(cat_title) VALUES (?)";
+                                $stmt = mysqli_prepare($connection, $query);
 
-                                $create_category_query = mysqli_query($connection, $query);
+                                // Bind the parameter
+                                mysqli_stmt_bind_param($stmt, 's', $cat_title);
 
-                                if (!$create_category_query){
+                                // Execute the statement
+                                $result = mysqli_stmt_execute($stmt);
+
+                                if (!$result) {
                                     die('QUERY FAILED' . mysqli_error($connection));
                                 }
 
                             }
-
                         }
-
 
                         ?>
 
-
+                        <!-- Add Category -->
                         <form action="" method="post">
                             <div class="form-group">
                                 <label for="cat-title">Category Title</label>
@@ -60,9 +63,18 @@
                             <div class="form-group">
                                 <input class="btn btn-primary" type="submit" name="submit" value="Add Category">
                             </div>
-
                         </form>
-                    </div><!-- Add Category Form -->
+
+                        <?php
+
+                        if (isset($_GET['edit'])) {
+                            $cat_id = $_GET['edit'];
+                            include "includes/update_categories.php";
+                        }
+
+                        ?>
+
+                    </div><!-- Category Forms -->
 
                     <div class="col-xs-6">
                         <table class="table table-bordered table-hover">
@@ -70,6 +82,8 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Category Title</th>
+                                <th>Delete</th>
+                                <th>Edit</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -78,16 +92,25 @@
 
                                 // Query all categories
                                 $query = "SELECT * FROM categories";
-                                $categories_query = mysqli_query($connection, $query);
+                                $stmt = mysqli_prepare($connection, $query);
 
-                                while ($row = mysqli_fetch_assoc($categories_query)) {
+                                // Execute the statement
+                                mysqli_stmt_execute($stmt);
+
+                                // Get result
+                                $result = mysqli_stmt_get_result($stmt);
+
+                                while ($row = mysqli_fetch_assoc($result)) {
+
                                     // Get and Print category id and title
                                     $cat_id = $row['cat_id'];
                                     $cat_title = $row['cat_title'];
+
                                     echo "<tr>";
                                     echo "<td>{$cat_id}</td>";
                                     echo "<td>{$cat_title}</td>";
                                     echo "<td><a href='categories.php?delete={$cat_id}'>Delete</a></td>";
+                                    echo "<td><a href='categories.php?edit={$cat_id}'>Edit</a></td>";
                                     echo "</tr>";
 
                                 }
@@ -96,10 +119,28 @@
 
                                 <?php
 
-                                if (isset($_GET['delete'])){
+                                // Delete Query
+                                if (isset($_GET['delete'])) {
+
                                     $delete_cat_id = $_GET['delete'];
-                                    $query = "DELETE FROM categories WHERE cat_id = {$delete_cat_id} ";
-                                    $delete_category_query = mysqli_query($connection, $query);
+                                    $query = "DELETE FROM categories WHERE cat_id = ? ";
+
+                                    $stmt = mysqli_prepare($connection, $query);
+
+                                    // Bind the parameter
+                                    mysqli_stmt_bind_param($stmt, 'i', $delete_cat_id);
+
+                                    // Execute the statement
+                                    $result = mysqli_stmt_execute($stmt);
+
+                                    if (!$result) {
+
+                                        die('QUERY FAILED' . mysqli_error($connection));
+
+                                    }
+
+                                    header("Location: categories.php");
+
                                 }
 
                                 ?>
@@ -108,13 +149,10 @@
                         </table>
                     </div>
                 </div>
-
             </div>
             <!-- /.row -->
-
         </div>
         <!-- /.container-fluid -->
-
     </div>
     <!-- /#page-wrapper -->
 

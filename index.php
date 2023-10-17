@@ -24,10 +24,16 @@
 
             //  Query all posts
             $query = "SELECT * FROM posts";
-            $select_all_posts_query = mysqli_query($connection, $query);
+            $stmt = mysqli_prepare($connection, $query);
+
+            // Execute the statement
+            mysqli_stmt_execute($stmt);
+
+            // Get result
+            $result = mysqli_stmt_get_result($stmt);
 
             //  Show all posts with while loop
-            while ($row = mysqli_fetch_assoc($select_all_posts_query)) {
+            while ($row = mysqli_fetch_assoc($result)) {
                 $post_title = $row['post_title'];
                 $post_author = $row['post_author'];
                 $post_date = $row['post_date'];

@@ -26,12 +26,10 @@ foreach ($db as $key => $value) {
 
 $connection = mysqli_connect(DB_HOST, DB_USER, DB_PW, DB_NAME);
 
-// check $connection
-if ($connection) {
-
-    echo "";
-    // echo "connected..";
-
+// Check $connection
+if (mysqli_connect_errno()) {
+    // Log the error or handle it in a way that doesn't expose details to the public
+    die("Database connection failed: " . mysqli_connect_error());
 }
 
 ?>

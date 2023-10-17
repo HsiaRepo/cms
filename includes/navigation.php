@@ -18,9 +18,12 @@
                 <?php
 
                 $query = "SELECT * FROM categories";
-                $select_all_categories_query = mysqli_query($connection, $query);
+                $stmt = mysqli_prepare($connection, $query);
 
-                while ($row = mysqli_fetch_assoc($select_all_categories_query)) {
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
+
+                while ($row = mysqli_fetch_assoc($result)) {
                     $cat_title = $row['cat_title'];
 
                     echo "<li><a href='#'>{$cat_title}</a></li>";

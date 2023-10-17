@@ -26,8 +26,15 @@
 
                     // Query for Categories
                     $query = "SELECT * FROM categories LIMIT 12";
-                    $select_categories_sidebar = mysqli_query($connection, $query);
-                    while ($row = mysqli_fetch_assoc($select_categories_sidebar)) {
+                    $stmt = mysqli_prepare($connection, $query);
+
+                    // Execute the prepared statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Get result
+                    $result = mysqli_stmt_get_result($stmt);
+
+                    while ($row = mysqli_fetch_assoc($result)) {
                         $cat_title = $row['cat_title'];
 
                         echo "<li><a href='#'>{$cat_title}</a></li>";
