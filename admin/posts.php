@@ -19,7 +19,7 @@
                     </h1>
 
                     <?php
-                    
+
                     // Switching admin display
                     if(isset($_GET['source'])){
                         $source = $_GET['source'];

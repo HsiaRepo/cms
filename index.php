@@ -21,25 +21,28 @@
             </h1>
 
             <?php
+            // Connection check
+            if (!$connection) {
+                die("Sorry, we're experiencing technical difficulties.");
+            }
 
-            //  Query all posts
+            // All posts query
             $query = "SELECT * FROM posts";
-            $stmt = mysqli_prepare($connection, $query);
+            $result = mysqli_query($connection, $query);
 
-            // Execute the statement
-            mysqli_stmt_execute($stmt);
+            // Result check
+            if (!$result) {
+                error_log('Query failed: ' . mysqli_error($connection));  // Log error for debugging
+                die("Sorry, we're experiencing technical difficulties.");
+            }
 
-            // Get result
-            $result = mysqli_stmt_get_result($stmt);
-
-            //  Show all posts with while loop
+            // Loop to show all posts' info
             while ($row = mysqli_fetch_assoc($result)) {
-                $post_title = $row['post_title'];
-                $post_author = $row['post_author'];
-                $post_date = $row['post_date'];
-                $post_image = $row['post_image'];
-                $post_content = $row['post_content'];
-
+                $post_title = htmlspecialchars($row['post_title']);
+                $post_author = htmlspecialchars($row['post_author']);
+                $post_date = htmlspecialchars($row['post_date']);
+                $post_image = htmlspecialchars($row['post_image']);
+                $post_content = htmlspecialchars($row['post_content']);
                 ?>
 
                 <!-- Exit PHP tags to fill in HTML (still in while loop) -->
@@ -61,12 +64,7 @@
 
                 <hr>
 
-                <?php
-
-            }
-
-            ?>
-
+            <?php } ?>
 
             <!-- TODO Pager -->
             <?php

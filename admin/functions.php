@@ -1,58 +1,78 @@
 <?php
 
-function insertCategories() {
-
+function insertCategories()
+{
     global $connection;
 
     if (isset($_POST['submit'])) {
-
-        // TODO Checking if user submits
-        // echo "<h1>Hello!</h1>";
-
         $cat_title = $_POST['cat_title'];
 
         if ($cat_title == "" || empty($cat_title)) {
-
             echo "This field should not be empty!";
-
         } else {
+            if (!$connection) {
+                die("Sorry, we're experiencing technical difficulties.");
+            }
 
-            // TODO Add Logic
             $query = "INSERT INTO categories(cat_title) VALUES (?)";
             $stmt = mysqli_prepare($connection, $query);
 
-            // Bind the parameter
-            mysqli_stmt_bind_param($stmt, 's', $cat_title);
-
-            // Execute the statement
-            $result = mysqli_stmt_execute($stmt);
-
-            if (!$result) {
-                die('QUERY FAILED' . mysqli_error($connection));
+            if (!$stmt) {
+                error_log("Statement preparation failed: " . mysqli_error($connection));
+                die("Sorry, we're experiencing technical difficulties.");
             }
 
+            mysqli_stmt_bind_param($stmt, 's', $cat_title);
+            $result = mysqli_stmt_execute($stmt);
+
+            if (mysqli_stmt_errno($stmt)) {
+                error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
+                die("Sorry, we're experiencing technical difficulties.");
+            }
+
+            if (!$result) {
+                error_log('QUERY FAILED: ' . mysqli_error($connection));
+                die("Sorry, we're experiencing technical difficulties.");
+            }
+
+            mysqli_stmt_close($stmt);
         }
     }
 }
 
-function findAllCategories() {
+function findAllCategories()
+{
     global $connection;
 
-    // Query all categories
+    if (!$connection) {
+        die("Sorry, we're experiencing technical difficulties.");
+    }
+
     $query = "SELECT * FROM categories";
     $stmt = mysqli_prepare($connection, $query);
 
-    // Execute the statement
+    if (!$stmt) {
+        error_log("Statement preparation failed: " . mysqli_error($connection));
+        die("Sorry, we're experiencing technical difficulties.");
+    }
+
     mysqli_stmt_execute($stmt);
 
-    // Get result
+    if (mysqli_stmt_errno($stmt)) {
+        error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
+        die("Sorry, we're experiencing technical difficulties.");
+    }
+
     $result = mysqli_stmt_get_result($stmt);
 
-    while ($row = mysqli_fetch_assoc($result)) {
+    if (!$result) {
+        error_log('QUERY FAILED: ' . mysqli_error($connection));
+        die("Sorry, we're experiencing technical difficulties.");
+    }
 
-        // Get and Print category id and title
-        $cat_id = $row['cat_id'];
-        $cat_title = $row['cat_title'];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $cat_id = htmlspecialchars($row['cat_id']);
+        $cat_title = htmlspecialchars($row['cat_title']);
 
         echo "<tr>";
         echo "<td>{$cat_id}</td>";
@@ -60,37 +80,35 @@ function findAllCategories() {
         echo "<td><a href='categories.php?delete={$cat_id}'>Delete</a></td>";
         echo "<td><a href='categories.php?edit={$cat_id}'>Edit</a></td>";
         echo "</tr>";
-
     }
 
+    mysqli_stmt_close($stmt);
 }
 
-function deleteCategories() {
-
-    // Delete Query
+function deleteCategories()
+{
     if (isset($_GET['delete'])) {
-
         global $connection;
 
         $delete_cat_id = $_GET['delete'];
-        $query = "DELETE FROM categories WHERE cat_id = ? ";
-
+        $query = "DELETE FROM categories WHERE cat_id = ?";
         $stmt = mysqli_prepare($connection, $query);
 
-        // Bind the parameter
         mysqli_stmt_bind_param($stmt, 'i', $delete_cat_id);
-
-        // Execute the statement
         $result = mysqli_stmt_execute($stmt);
 
-        if (!$result) {
-
-            die('QUERY FAILED' . mysqli_error($connection));
-
+        if (mysqli_stmt_errno($stmt)) {
+            error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
+            die("Sorry, we're experiencing technical difficulties.");
         }
 
-        header("Location: categories.php");
+        if (!$result) {
+            error_log('QUERY FAILED: ' . mysqli_error($connection));
+            die("Sorry, we're experiencing technical difficulties.");
+        }
 
+        mysqli_stmt_close($stmt);
+        header("Location: categories.php");
     }
 }
 
