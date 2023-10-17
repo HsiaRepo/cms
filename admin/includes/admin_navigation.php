@@ -45,7 +45,7 @@
                             class="fa fa-fw fa-arrows-v"></i> Posts <i class="fa fa-fw fa-caret-down"></i></a>
                 <ul id="post" class="collapse">
                     <li>
-                        <a href="#">View Post</a>
+                        <a href="posts.php">View Post</a>
                     </li>
                     <li>
                         <a href="#">Add Post</a>
