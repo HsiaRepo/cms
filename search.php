@@ -19,34 +19,35 @@
 
             <?php
             if (isset($_POST['submit'])) {
-                // Using prepared statements, so no need for mysqli_real_escape_string
+
+                if (!$connection) {
+                    error_log("Connection failed: " . mysqli_connect_error());
+                    die("Sorry, we're experiencing technical difficulties.");
+                }
+
                 $search = $_POST['search'];
 
+                // Select posts like post_tags or post_title query
                 $query = "SELECT * FROM posts WHERE post_tags LIKE CONCAT('%', ?, '%') OR post_title LIKE CONCAT('%', ?, '%')";
                 $stmt = mysqli_prepare($connection, $query);
-
                 if (!$stmt) {
-                    // Logging the error instead of showing the user
                     error_log("Statement preparation failed: " . mysqli_error($connection));
                     die("Sorry, we're experiencing technical difficulties.");
-                    exit;
                 }
 
                 mysqli_stmt_bind_param($stmt, 'ss', $search, $search);
-
                 if (!mysqli_stmt_execute($stmt)) {
                     error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
                     die("Sorry, we're experiencing technical difficulties.");
-                    exit;
                 }
 
                 $search_query = mysqli_stmt_get_result($stmt);
                 $count = mysqli_num_rows($search_query);
-
                 if ($count == 0) {
                     echo "<h1> NO RESULT </h1>";
                 } else {
                     while ($row = mysqli_fetch_assoc($search_query)) {
+
                         // Using htmlspecialchars for output escaping
                         $post_title = htmlspecialchars($row['post_title']);
                         $post_author = htmlspecialchars($row['post_author']);

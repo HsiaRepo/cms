@@ -23,33 +23,26 @@
             <div class="col-lg-12">
                 <ul class="list-unstyled">
                     <?php
-                    // Connection check
+
                     if (!$connection) {
                         die("Sorry, we're experiencing technical difficulties.");
                     }
 
-                    // Limit 12 All Categories query
+                    // Select limit 12 all categories query
                     $query = "SELECT * FROM categories LIMIT 12";
-
-                    // Prepare statement
                     $stmt = mysqli_prepare($connection, $query);
-
                     if (!$stmt) {
                         error_log('Statement preparation failed: ' . mysqli_error($connection));  // Log error for debugging
                         die("Sorry, we're experiencing technical difficulties.");
                     }
 
-                    // Execute the prepared statement
                     mysqli_stmt_execute($stmt);
-
                     if (mysqli_stmt_errno($stmt)) {
                         error_log('Statement execution failed: ' . mysqli_stmt_error($stmt));  // Log error for debugging
                         die("Sorry, we're experiencing technical difficulties.");
                     }
 
-                    // Get result
                     $result = mysqli_stmt_get_result($stmt);
-
                     if (!$result) {
                         error_log('Query failed: ' . mysqli_error($connection));  // Log error for debugging
                         die("Sorry, we're experiencing technical difficulties.");

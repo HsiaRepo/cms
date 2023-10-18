@@ -17,32 +17,30 @@
 
     <?php
 
-    // Connection check
     if (!$connection) {
-        die("Connection failed: " . mysqli_connect_error());
+        error_log("Connection failed: " . mysqli_connect_error());
+        die("Sorry, we're experiencing technical difficulties.");
     }
 
-    // All posts query
+    // Select all posts query
     $query = "SELECT * FROM posts";
-
-    // Prepare statement
     $stmt = mysqli_prepare($connection, $query);
-
-    //Preparation check
     if (!$stmt) {
-        die("Statement preparation failed: " . mysqli_error($connection));
+        error_log("Statement preparation failed: " . mysqli_error($connection));
+        die("Sorry, we're experiencing technical difficulties.");
     }
 
-    // Execute statement
     mysqli_stmt_execute($stmt);
-
-    // Execution check
     if (mysqli_stmt_errno($stmt)) {
-        die("Statement execution failed: " . mysqli_stmt_error($stmt));
+        error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
+        die("Sorry, we're experiencing technical difficulties.");
     }
 
-    // Get result
     $result = mysqli_stmt_get_result($stmt);
+    if (!$result) {
+        error_log('QUERY FAILED' . mysqli_error($connection));
+        die("Sorry, we're experiencing technical difficulties.");
+    }
 
     // Loop to show all post info in table
     while ($row = mysqli_fetch_assoc($result)) {
@@ -73,7 +71,6 @@
 
     }
 
-    // Close statement
     mysqli_stmt_close($stmt);
 
     ?>
@@ -91,4 +88,5 @@
     <td>Comments</td>
     </tbody>
     -->
+
 </table>

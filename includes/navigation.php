@@ -17,35 +17,28 @@
             <ul class="nav navbar-nav">
                 <?php
 
-                // Connection check
                 if (!$connection) {
+                    error_log("Connection failed: " . mysqli_connect_error());
                     die("Sorry, we're experiencing technical difficulties.");
                 }
 
-                // All categories query
+                // Select all categories query
                 $query = "SELECT * FROM categories";
-
-                // Prepare statement
                 $stmt = mysqli_prepare($connection, $query);
-
                 if (!$stmt) {
-                    error_log('Statement preparation failed: ' . mysqli_error($connection));  // Log error for debugging
+                    error_log('Statement preparation failed: ' . mysqli_error($connection));
                     die("Sorry, we're experiencing technical difficulties.");
                 }
 
-                // Execute statement
                 mysqli_stmt_execute($stmt);
-
                 if (mysqli_stmt_errno($stmt)) {
-                    error_log('Statement execution failed: ' . mysqli_stmt_error($stmt));  // Log error for debugging
+                    error_log('Statement execution failed: ' . mysqli_stmt_error($stmt));
                     die("Sorry, we're experiencing technical difficulties.");
                 }
 
-                // Get result
                 $result = mysqli_stmt_get_result($stmt);
-
                 if (!$result) {
-                    error_log('Query failed: ' . mysqli_error($connection));  // Log error for debugging
+                    error_log('Query failed: ' . mysqli_error($connection));
                     die("Sorry, we're experiencing technical difficulties.");
                 }
 
@@ -55,7 +48,6 @@
                     echo "<li><a href='#'>{$cat_title}</a></li>";
                 }
 
-                // Close statement
                 mysqli_stmt_close($stmt);
 
                 ?>

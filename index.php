@@ -21,16 +21,14 @@
             </h1>
 
             <?php
-            // Connection check
+
             if (!$connection) {
                 die("Sorry, we're experiencing technical difficulties.");
             }
 
-            // All posts query
+            // Select all posts query
             $query = "SELECT * FROM posts";
             $result = mysqli_query($connection, $query);
-
-            // Result check
             if (!$result) {
                 error_log('Query failed: ' . mysqli_error($connection));  // Log error for debugging
                 die("Sorry, we're experiencing technical difficulties.");
@@ -67,11 +65,7 @@
             <?php } ?>
 
             <!-- TODO Pager -->
-            <?php
-            /*
-                include "includes/pager.php"
-            */
-            ?>
+            <?php /* include "includes/pager.php" */ ?>
 
         </div>
 

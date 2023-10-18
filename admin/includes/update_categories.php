@@ -8,45 +8,35 @@
         // Query for displaying category to edit
         if (isset($_GET['edit'])) {
 
-            // Connection check
             if (!$connection) {
-                die("Connection failed: " . mysqli_connect_error());
+                error_log("Connection failed: " . mysqli_connect_error());
+                die("Sorry, we're experiencing technical difficulties.");
             }
+
+            $cat_id = intval($_GET['edit']); // Ensuring integer value
 
             // Category id query
-            $cat_id = intval($_GET['edit']); // Ensuring integer value
             $query = "SELECT * FROM categories WHERE cat_id = ?";
-
-            // Prepare statement
             $stmt = mysqli_prepare($connection, $query);
-
-            // Preparation check
             if (!$stmt) {
-                die("Statement preparation failed: " . mysqli_error($connection));
+                error_log("Statement preparation failed: " . mysqli_error($connection));
+                die("Sorry, we're experiencing technical difficulties.");
             }
 
-            // Bind parameters
             mysqli_stmt_bind_param($stmt, 'i', $cat_id);
-
-            // Execute statement
             mysqli_stmt_execute($stmt);
-
-            // Execution check
             if (mysqli_stmt_errno($stmt)) {
-                die("Statement execution failed: " . mysqli_stmt_error($stmt));
+                error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
+                die("Sorry, we're experiencing technical difficulties.");
             }
 
-            // Access result
             $result = mysqli_stmt_get_result($stmt);
-
-            // Result check
             if (!$result) {
-                die('QUERY FAILED' . mysqli_error($connection));
+                error_log('QUERY FAILED' . mysqli_error($connection));
+                die("Sorry, we're experiencing technical difficulties.");
             }
 
-            // Loop to show "update form" input
             while ($row = mysqli_fetch_assoc($result)) {
-
                 $cat_id = intval($row['cat_id']);
                 $cat_title = htmlspecialchars($row['cat_title']); // Protect against XSS
 
@@ -55,9 +45,9 @@
                 <input value="<?php echo $cat_title; ?>" type="text" class="form-control" name="cat_title">
 
                 <?php
+
             }
 
-            // Close statement
             mysqli_stmt_close($stmt);
         }
 
@@ -67,9 +57,9 @@
 
         if (isset($_POST['update_category'])) {
 
-            // Connection check
             if (!$connection) {
-                die("Connection failed: " . mysqli_connect_error());
+                error_log("Connection failed: " . mysqli_connect_error());
+                die("Sorry, we're experiencing technical difficulties.");
             }
 
             $update_cat_id = intval($_GET['edit']); // Ensuring integer value
@@ -77,33 +67,26 @@
 
             // Category update query
             $query = "UPDATE categories SET cat_title = ? WHERE cat_id = ?";
-
-            // Prepare statement
             $stmt = mysqli_prepare($connection, $query);
-
-            // Preparation check
             if (!$stmt) {
-                die("Statement preparation failed: " . mysqli_error($connection));
+                error_log("Statement preparation failed: " . mysqli_error($connection));
+                die("Sorry, we're experiencing technical difficulties.");
             }
 
-            // Bind parameters
             mysqli_stmt_bind_param($stmt, 'si', $cat_title_to_update, $update_cat_id);
-
-            // Execute statement
             mysqli_stmt_execute($stmt);
-
-            // Execution check
             if (mysqli_stmt_errno($stmt)) {
-                die("Statement execution failed: " . mysqli_stmt_error($stmt));
+                error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
+                die("Sorry, we're experiencing technical difficulties.");
             }
 
             // No need for get_result() since it's an UPDATE operation and not a SELECT
 
-            // Close statement
             mysqli_stmt_close($stmt);
 
-            // GO-TO categories
+            // Redirect to categories.php
             header("Location: categories.php");
+
         }
 
         ?>
