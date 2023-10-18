@@ -24,30 +24,19 @@
                 <ul class="list-unstyled">
                     <?php
 
-                    if (!$connection) {
-                        error_log("Connection failed: " . mysqli_connect_error());
-                        die("Sorry, we're experiencing technical difficulties.");
-                    }
+                    confirmConnection($connection);
 
                     // Select limit 12 all categories query
                     $query = "SELECT * FROM categories LIMIT 12";
+
                     $stmt = mysqli_prepare($connection, $query);
-                    if (!$stmt) {
-                        error_log('Statement preparation failed: ' . mysqli_error($connection));  // Log error for debugging
-                        die("Sorry, we're experiencing technical difficulties.");
-                    }
+                    confirmPreparation($stmt);
 
                     mysqli_stmt_execute($stmt);
-                    if (mysqli_stmt_errno($stmt)) {
-                        error_log('Statement execution failed: ' . mysqli_stmt_error($stmt));  // Log error for debugging
-                        die("Sorry, we're experiencing technical difficulties.");
-                    }
+                    confirmExecution($stmt);
 
                     $result = mysqli_stmt_get_result($stmt);
-                    if (!$result) {
-                        error_log('Query failed: ' . mysqli_error($connection));  // Log error for debugging
-                        die("Sorry, we're experiencing technical difficulties.");
-                    }
+                    confirmResult($result);
 
                     // Loop category titles for sidebar
                     while ($row = mysqli_fetch_assoc($result)) {

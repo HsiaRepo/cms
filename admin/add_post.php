@@ -20,6 +20,8 @@
 
                     <?php
 
+                    confirmConnection($connection);
+
                     if (isset($_POST['create_post'])) {
                         $post_title = htmlspecialchars($_POST['title']);
                         $post_author = htmlspecialchars($_POST['author']);
@@ -32,15 +34,9 @@
                         $post_tags = htmlspecialchars($_POST['post_tags']);
                         $post_content = htmlspecialchars($_POST['post_content']);
                         $post_date = date('d-m-y');
-                        $post_comment_count = 4; //TODO Hardcoded
+                        $post_comment_count = 0; //TODO Hardcoded
 
                         move_uploaded_file($post_image_temp, "../images/$post_image");
-
-                        // Connection check
-                        if (!$connection) {
-                            error_log("Connection failed: " . mysqli_connect_error());
-                            die("Sorry, we're experiencing technical difficulties.");
-                        }
 
                         // Insert post query
                         $query = "INSERT INTO posts(
@@ -49,33 +45,20 @@
             post_tags, post_comment_count, post_status
          ) VALUES (?, ?, ?, NOW(), ?, ?, ?, ?, ?)";
 
-                        // Prepare statement
                         $stmt = mysqli_prepare($connection, $query);
+                        confirmPreparation($stmt);
 
-                        // Preparation check
-                        if (!$stmt) {
-                            error_log("Statement preparation failed: " . mysqli_error($connection));
-                            die("Sorry, we're experiencing technical difficulties.");
-                        }
-
-                        // Bind parameters
                         mysqli_stmt_bind_param($stmt, "isssssis",
                             $post_category_id, $post_title, $post_author,
                             $post_image, $post_content, $post_tags,
                             $post_comment_count, $post_status
                         );
 
-                        // Execute statement
                         mysqli_stmt_execute($stmt);
+                        confirmExecution($stmt);
 
-                        // Execution check
-                        if (mysqli_stmt_errno($stmt)) {
-                            error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
-                            die("Sorry, we're experiencing technical difficulties.");
-                        }
-
-                        // Close statement
                         mysqli_stmt_close($stmt);
+
                     }
 
                     ?>

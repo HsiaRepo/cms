@@ -22,18 +22,12 @@
 
             <?php
 
-            if (!$connection) {
-                error_log("Connection failed: " . mysqli_connect_error());
-                die("Sorry, we're experiencing technical difficulties.");
-            }
+            confirmConnection($connection);
 
             // Select all posts query
             $query = "SELECT * FROM posts";
             $result = mysqli_query($connection, $query);
-            if (!$result) {
-                error_log('Query failed: ' . mysqli_error($connection));  // Log error for debugging
-                die("Sorry, we're experiencing technical difficulties.");
-            }
+            confirmResult($result);
 
             // Loop to show all posts' info
             while ($row = mysqli_fetch_assoc($result)) {

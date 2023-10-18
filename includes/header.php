@@ -1,4 +1,5 @@
 <!-- Header -->
+<?php include "functions.php"; ?>
 
 <!DOCTYPE html>
 <html lang="en"> <!-- closed in footer.php -->

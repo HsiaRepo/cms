@@ -8,33 +8,19 @@
         // Query for displaying category to edit
         if (isset($_GET['edit'])) {
 
-            if (!$connection) {
-                error_log("Connection failed: " . mysqli_connect_error());
-                die("Sorry, we're experiencing technical difficulties.");
-            }
-
+            confirmConnection($connection);
             $cat_id = intval($_GET['edit']); // Ensuring integer value
 
             // Category id query
             $query = "SELECT * FROM categories WHERE cat_id = ?";
-            $stmt = mysqli_prepare($connection, $query);
-            if (!$stmt) {
-                error_log("Statement preparation failed: " . mysqli_error($connection));
-                die("Sorry, we're experiencing technical difficulties.");
-            }
 
+            $stmt = mysqli_prepare($connection, $query);
+            confirmPreparation($stmt);
             mysqli_stmt_bind_param($stmt, 'i', $cat_id);
             mysqli_stmt_execute($stmt);
-            if (mysqli_stmt_errno($stmt)) {
-                error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
-                die("Sorry, we're experiencing technical difficulties.");
-            }
-
+            confirmExecution($stmt);
             $result = mysqli_stmt_get_result($stmt);
-            if (!$result) {
-                error_log('QUERY FAILED' . mysqli_error($connection));
-                die("Sorry, we're experiencing technical difficulties.");
-            }
+            confirmResult($result);
 
             while ($row = mysqli_fetch_assoc($result)) {
                 $cat_id = intval($row['cat_id']);
@@ -57,10 +43,7 @@
 
         if (isset($_POST['update_category'])) {
 
-            if (!$connection) {
-                error_log("Connection failed: " . mysqli_connect_error());
-                die("Sorry, we're experiencing technical difficulties.");
-            }
+            confirmConnection($connection);
 
             $update_cat_id = intval($_GET['edit']); // Ensuring integer value
             $cat_title_to_update = $_POST['cat_title'];
@@ -68,20 +51,13 @@
             // Category update query
             $query = "UPDATE categories SET cat_title = ? WHERE cat_id = ?";
             $stmt = mysqli_prepare($connection, $query);
-            if (!$stmt) {
-                error_log("Statement preparation failed: " . mysqli_error($connection));
-                die("Sorry, we're experiencing technical difficulties.");
-            }
+            confirmPreparation($stmt);
 
             mysqli_stmt_bind_param($stmt, 'si', $cat_title_to_update, $update_cat_id);
             mysqli_stmt_execute($stmt);
-            if (mysqli_stmt_errno($stmt)) {
-                error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
-                die("Sorry, we're experiencing technical difficulties.");
-            }
+            confirmExecution($stmt);
 
             // No need for get_result() since it's an UPDATE operation and not a SELECT
-
             mysqli_stmt_close($stmt);
 
             // Redirect to categories.php

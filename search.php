@@ -20,33 +20,29 @@
             <?php
             if (isset($_POST['submit'])) {
 
-                if (!$connection) {
-                    error_log("Connection failed: " . mysqli_connect_error());
-                    die("Sorry, we're experiencing technical difficulties.");
-                }
+                confirmConnection($connection);
 
                 $search = $_POST['search'];
 
                 // Select posts like post_tags or post_title query
                 $query = "SELECT * FROM posts WHERE post_tags LIKE CONCAT('%', ?, '%') OR post_title LIKE CONCAT('%', ?, '%')";
+
                 $stmt = mysqli_prepare($connection, $query);
-                if (!$stmt) {
-                    error_log("Statement preparation failed: " . mysqli_error($connection));
-                    die("Sorry, we're experiencing technical difficulties.");
-                }
+                confirmPreparation($stmt);
 
                 mysqli_stmt_bind_param($stmt, 'ss', $search, $search);
-                if (!mysqli_stmt_execute($stmt)) {
-                    error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
-                    die("Sorry, we're experiencing technical difficulties.");
-                }
 
-                $search_query = mysqli_stmt_get_result($stmt);
-                $count = mysqli_num_rows($search_query);
+                mysqli_stmt_execute($stmt);
+                confirmExecution($stmt);
+
+                $result = mysqli_stmt_get_result($stmt);
+                confirmResult($result);
+
+                $count = mysqli_num_rows($result);
                 if ($count == 0) {
                     echo "<h1> NO RESULT </h1>";
                 } else {
-                    while ($row = mysqli_fetch_assoc($search_query)) {
+                    while ($row = mysqli_fetch_assoc($result)) {
 
                         // Using htmlspecialchars for output escaping
                         $post_title = htmlspecialchars($row['post_title']);

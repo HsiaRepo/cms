@@ -24,23 +24,15 @@
 
                 // Select all categories query
                 $query = "SELECT * FROM categories";
+
                 $stmt = mysqli_prepare($connection, $query);
-                if (!$stmt) {
-                    error_log('Statement preparation failed: ' . mysqli_error($connection));
-                    die("Sorry, we're experiencing technical difficulties.");
-                }
+                confirmPreparation($stmt);
 
                 mysqli_stmt_execute($stmt);
-                if (mysqli_stmt_errno($stmt)) {
-                    error_log('Statement execution failed: ' . mysqli_stmt_error($stmt));
-                    die("Sorry, we're experiencing technical difficulties.");
-                }
+                confirmExecution($stmt);
 
                 $result = mysqli_stmt_get_result($stmt);
-                if (!$result) {
-                    error_log('Query failed: ' . mysqli_error($connection));
-                    die("Sorry, we're experiencing technical difficulties.");
-                }
+                confirmResult($result);
 
                 // Loop for displaying navigation options from categories
                 while ($row = mysqli_fetch_assoc($result)) {
