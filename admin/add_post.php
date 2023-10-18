@@ -38,7 +38,8 @@
 
                         // Connection check
                         if (!$connection) {
-                            die("Connection failed: " . mysqli_connect_error());
+                            error_log("Connection failed: " . mysqli_connect_error());
+                            die("Sorry, we're experiencing technical difficulties.");
                         }
 
                         // Insert post query
@@ -53,11 +54,12 @@
 
                         // Preparation check
                         if (!$stmt) {
-                            die("Statement preparation failed: " . mysqli_error($connection));
+                            error_log("Statement preparation failed: " . mysqli_error($connection));
+                            die("Sorry, we're experiencing technical difficulties.");
                         }
 
                         // Bind parameters
-                        mysqli_stmt_bind_param($stmt, "issssssis",
+                        mysqli_stmt_bind_param($stmt, "isssssis",
                             $post_category_id, $post_title, $post_author,
                             $post_image, $post_content, $post_tags,
                             $post_comment_count, $post_status
@@ -68,7 +70,8 @@
 
                         // Execution check
                         if (mysqli_stmt_errno($stmt)) {
-                            die("Statement execution failed: " . mysqli_stmt_error($stmt));
+                            error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
+                            die("Sorry, we're experiencing technical difficulties.");
                         }
 
                         // Close statement

@@ -25,6 +25,7 @@
                     <?php
 
                     if (!$connection) {
+                        error_log("Connection failed: " . mysqli_connect_error());
                         die("Sorry, we're experiencing technical difficulties.");
                     }
 
@@ -54,6 +55,7 @@
                         echo "<li><a href='#'>{$cat_title}</a></li>";
                     }
                     ?>
+
                 </ul>
             </div>
             <!-- /.col-lg-12 -->

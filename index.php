@@ -23,6 +23,7 @@
             <?php
 
             if (!$connection) {
+                error_log("Connection failed: " . mysqli_connect_error());
                 die("Sorry, we're experiencing technical difficulties.");
             }
 
