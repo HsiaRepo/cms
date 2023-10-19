@@ -48,10 +48,7 @@
                         <a href="posts.php">View Post</a>
                     </li>
                     <li>
-                        <a href="add_post.php">Add Post</a>
-                    </li>
-                    <li>
-                        <a href="#">Remove Post</a>
+                        <a href="posts.php?source=add_post">Add Post</a>
                     </li>
                 </ul>
             </li>
