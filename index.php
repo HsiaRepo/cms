@@ -31,6 +31,7 @@
 
             // Loop to show all posts' info
             while ($row = mysqli_fetch_assoc($result)) {
+                $post_id = htmlspecialchars($row['post_id']);
                 $post_title = htmlspecialchars($row['post_title']);
                 $post_author = htmlspecialchars($row['post_author']);
                 $post_date = htmlspecialchars($row['post_date']);
@@ -42,7 +43,7 @@
 
                 <!-- First Blog Post -->
                 <h2>
-                    <a href="#"><?php echo $post_title ?></a>
+                    <a href="post.php?post_id=<?php echo $post_id; ?>"><?php echo $post_title ?></a>
                 </h2>
                 <p class="lead">
                     by <a href="index.php"><?php echo $post_author ?></a>
