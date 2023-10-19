@@ -4,6 +4,11 @@ confirmConnection($connection);
 
 $get_post_id = isset($_GET['post_id']) ? htmlspecialchars($_GET['post_id']) : null; // Initialize outside if block
 
+// Fetch all categories for the dropdown
+$query = "SELECT * FROM categories";
+$all_categories = mysqli_query($connection, $query);
+confirmResult($all_categories);
+
 if (isset($_POST['update_post'])) {
     $post_title = htmlspecialchars($_POST['title']);
     $post_author = htmlspecialchars($_POST['author']);
@@ -74,10 +79,24 @@ if (isset($_GET['post_id'])) {
                 <label for="title">Post Title</label>
                 <input type="text" value="<?php echo $post_title ?>" class="form-control" name="title">
             </div>
+
             <div class="form-group">
                 <label for="post_category">Post Category</label>
-                <input type="text" value="<?php echo $post_category_id ?>" class="form-control" name="post_category_id">
+                <select name="post_category_id" id="post_category" class="form-control">
+                    <?php
+                    while ($cat_row = mysqli_fetch_assoc($all_categories)) {
+                        $current_cat_id = intval($cat_row['cat_id']);
+                        $current_cat_title = htmlspecialchars($cat_row['cat_title']);
+                        if ($current_cat_id == $post_category_id) {
+                            echo "<option value='{$current_cat_id}' selected>{$current_cat_title}</option>";
+                        } else {
+                            echo "<option value='{$current_cat_id}'>{$current_cat_title}</option>";
+                        }
+                    }
+                    ?>
+                </select>
             </div>
+
             <div class="form-group">
                 <label for="post_author">Post Author</label>
                 <input type="text" value="<?php echo $post_author ?>" class="form-control" name="author">

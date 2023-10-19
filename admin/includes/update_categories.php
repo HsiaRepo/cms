@@ -27,7 +27,7 @@
 
             while ($row = mysqli_fetch_assoc($result)) {
                 $cat_id = intval($row['cat_id']);
-                $cat_title = htmlspecialchars($row['cat_title']); // Protect against XSS
+                $cat_title = htmlspecialchars($row['cat_title']);
 
                 ?>
 
