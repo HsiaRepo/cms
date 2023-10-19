@@ -21,7 +21,6 @@
     <?php
 
     if (isset($_GET['delete'])) {
-
         confirmConnection($connection);
 
         $post_id = htmlspecialchars($_GET['delete']);
@@ -30,16 +29,13 @@
         $query = "DELETE FROM posts WHERE post_id = ? ";
         $stmt = mysqli_prepare($connection, $query);
         confirmPreparation($stmt);
-
         mysqli_stmt_bind_param($stmt, 'i', $post_id);
-
         mysqli_stmt_execute($stmt);
         confirmExecution($stmt);
 
         // DELETE does not require a $result check
 
         mysqli_stmt_close($stmt);
-
     }
 
     ?>
@@ -50,19 +46,15 @@
 
     // Select all posts query
     $query = "SELECT * FROM posts";
-
     $stmt = mysqli_prepare($connection, $query);
     confirmPreparation($stmt);
-
     mysqli_stmt_execute($stmt);
     confirmExecution($stmt);
-
     $result = mysqli_stmt_get_result($stmt);
     confirmResult($result);
 
     // Loop to show all post info in table
     while ($row = mysqli_fetch_assoc($result)) {
-
         // Post info with XSS protection using htmlspecialchars
         $post_id = htmlspecialchars($row['post_id']);
         $post_title = htmlspecialchars($row['post_title']);
@@ -80,7 +72,26 @@
         echo "<td>{$post_id}</td>";
         echo "<td>{$post_title}</td>";
         echo "<td>{$post_author}</td>";
-        echo "<td>{$post_category_id}</td>";
+
+        // Category id query
+        $cat_query = "SELECT * FROM categories WHERE cat_id = ?";
+        $cat_stmt = mysqli_prepare($connection, $cat_query); // Different statement variable for categories
+        confirmPreparation($cat_stmt);
+        mysqli_stmt_bind_param($cat_stmt, 'i', $post_category_id);
+        mysqli_stmt_execute($cat_stmt);
+        confirmExecution($cat_stmt);
+        $cat_result = mysqli_stmt_get_result($cat_stmt); // Different result variable for categories
+        confirmResult($cat_result);
+
+        while ($cat_row = mysqli_fetch_assoc($cat_result)) {
+            $cat_id = intval($cat_row['cat_id']);
+            $cat_title = htmlspecialchars($cat_row['cat_title']);
+            echo "<td>{$cat_title}</td>";
+        }
+
+        mysqli_stmt_close($cat_stmt); // Close the category statement immediately after use
+
+
         echo "<td>{$post_status}</td>";
         echo "<td><img class='img-responsive' src='../images/{$post_image}' alt='image'></td>";
         echo "<td>{$post_tags}</td>";

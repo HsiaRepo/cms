@@ -17,20 +17,14 @@
             <ul class="nav navbar-nav">
                 <?php
 
-                if (!$connection) {
-                    error_log("Connection failed: " . mysqli_connect_error());
-                    die("Sorry, we're experiencing technical difficulties.");
-                }
+                confirmConnection($connection);
 
                 // Select all categories query
                 $query = "SELECT * FROM categories";
-
                 $stmt = mysqli_prepare($connection, $query);
                 confirmPreparation($stmt);
-
                 mysqli_stmt_execute($stmt);
                 confirmExecution($stmt);
-
                 $result = mysqli_stmt_get_result($stmt);
                 confirmResult($result);
 

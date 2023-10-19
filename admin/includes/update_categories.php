@@ -7,21 +7,17 @@
 
         // Query for displaying category to edit
         if (isset($_GET['edit'])) {
-
             confirmConnection($connection);
+
             $cat_id = intval($_GET['edit']); // Ensuring integer value
 
             // Category id query
             $query = "SELECT * FROM categories WHERE cat_id = ?";
-
             $stmt = mysqli_prepare($connection, $query);
             confirmPreparation($stmt);
-
             mysqli_stmt_bind_param($stmt, 'i', $cat_id);
-
             mysqli_stmt_execute($stmt);
             confirmExecution($stmt);
-
             $result = mysqli_stmt_get_result($stmt);
             confirmResult($result);
 
@@ -45,7 +41,6 @@
         <?php
 
         if (isset($_POST['update_category'])) {
-
             confirmConnection($connection);
 
             $update_cat_id = intval($_GET['edit']); // Ensuring integer value
@@ -55,17 +50,16 @@
             $query = "UPDATE categories SET cat_title = ? WHERE cat_id = ?";
             $stmt = mysqli_prepare($connection, $query);
             confirmPreparation($stmt);
-
             mysqli_stmt_bind_param($stmt, 'si', $cat_title_to_update, $update_cat_id);
             mysqli_stmt_execute($stmt);
             confirmExecution($stmt);
 
-            // No need for get_result() since it's an UPDATE operation and not a SELECT
+            // UPDATE does not require a $result check
+
             mysqli_stmt_close($stmt);
 
             // Redirect to categories.php
             header("Location: categories.php");
-
         }
 
         ?>
