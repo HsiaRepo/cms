@@ -11,9 +11,36 @@
         <th>Tags</th>
         <th>Comments</th>
         <th>Date</th>
+        <th>Delete</th>
     </tr>
     </thead>
     <tbody>
+
+    <?php
+
+    if (isset($_GET['delete'])) {
+
+        confirmConnection($connection);
+
+        $post_id = htmlspecialchars($_GET['delete']);
+
+        // Delete by post_id query
+        $query = "DELETE FROM posts WHERE post_id = ? ";
+        $stmt = mysqli_prepare($connection, $query);
+        confirmPreparation($stmt);
+
+        mysqli_stmt_bind_param($stmt, 'i', $post_id);
+
+        mysqli_stmt_execute($stmt);
+        confirmExecution($stmt);
+
+        // DELETE does not require a $result check
+
+        mysqli_stmt_close($stmt);
+
+    }
+
+    ?>
 
     <?php
 
@@ -56,6 +83,7 @@
         echo "<td>{$post_tags}</td>";
         echo "<td>{$post_comment_count_title}</td>";
         echo "<td>{$post_date}</td>";
+        echo "<td><a href='posts.php?delete={$post_id}'>Delete</a></td>";
         echo "</tr>";
 
     }
