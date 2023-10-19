@@ -27,10 +27,11 @@ if (isset($_POST['create_post'])) {
     $stmt = mysqli_prepare($connection, $query);
     confirmPreparation($stmt);
     mysqli_stmt_bind_param($stmt, "sissssis",
-        $post_title, $post_category_id, $post_author, $post_date,
+        $post_title, $post_category_id, $post_author,
         $post_image, $post_content, $post_tags,
         $post_comment_count, $post_status
     );
+
     mysqli_stmt_execute($stmt);
     confirmExecution($stmt);
     mysqli_stmt_close($stmt);
