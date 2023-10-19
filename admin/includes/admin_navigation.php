@@ -68,9 +68,6 @@
                     <li>
                         <a href="#">Add User</a>
                     </li>
-                    <li>
-                        <a href="#">Remove User</a>
-                    </li>
                 </ul>
             </li>
             <li>
