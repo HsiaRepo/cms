@@ -9,8 +9,10 @@
         <th>Status</th>
         <th>Image</th>
         <th>Tags</th>
+        <th>Content</th>
         <th>Comments</th>
         <th>Date</th>
+        <th>Edit</th>
         <th>Delete</th>
     </tr>
     </thead>
@@ -69,6 +71,7 @@
         $post_status = htmlspecialchars($row['post_status']);
         $post_image = htmlspecialchars($row['post_image']);
         $post_tags = htmlspecialchars($row['post_tags']);
+        $post_content = htmlspecialchars($row['post_content']);
         $post_comment_count_title = htmlspecialchars($row['post_comment_count']);
         $post_date = htmlspecialchars($row['post_date']);
 
@@ -81,8 +84,10 @@
         echo "<td>{$post_status}</td>";
         echo "<td><img class='img-responsive' src='../images/{$post_image}' alt='image'></td>";
         echo "<td>{$post_tags}</td>";
+        echo "<td>{$post_content}</td>";
         echo "<td>{$post_comment_count_title}</td>";
         echo "<td>{$post_date}</td>";
+        echo "<td><a href='posts.php?source=edit_post&post_id={$post_id}'>Edit</a></td>";
         echo "<td><a href='posts.php?delete={$post_id}'>Delete</a></td>";
         echo "</tr>";
 
