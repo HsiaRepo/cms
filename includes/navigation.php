@@ -10,7 +10,7 @@
                 <span class="icon-bar">Toggle navigation 3</span>
                 <span class="icon-bar">Toggle navigation 4</span>
             </button>
-            <a class="navbar-brand" href="index.php">Page Navigation</a>
+            <a class="navbar-brand" href="index.php">CMS Home</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

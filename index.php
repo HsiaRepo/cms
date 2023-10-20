@@ -36,7 +36,7 @@
                 $post_author = htmlspecialchars($row['post_author']);
                 $post_date = htmlspecialchars($row['post_date']);
                 $post_image = htmlspecialchars($row['post_image']);
-                $post_content = htmlspecialchars($row['post_content']);
+                $post_content = substr(htmlspecialchars($row['post_content']),0,50);
                 ?>
 
                 <!-- Exit PHP tags to fill in HTML (still in while loop) -->
