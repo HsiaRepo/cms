@@ -17,28 +17,62 @@
     <tbody>
 
     <?php
+    if (isset($_GET['approve'])) {
+        $comment_id_to_approve = htmlspecialchars($_GET['approve']);
+        $query = "UPDATE comments SET comment_status = 'approved' WHERE comment_id = ?";
+
+        $stmt = mysqli_prepare($connection, $query);
+        confirmPreparation($stmt);
+
+        mysqli_stmt_bind_param($stmt, 'i', $comment_id_to_approve);
+        mysqli_stmt_execute($stmt);
+        confirmExecution($stmt);
+
+        mysqli_stmt_close($stmt);
+
+        header("Location: comments.php");
+    }
+
+    if (isset($_GET['unapprove'])) {
+        $comment_id_to_unapprove = htmlspecialchars($_GET['unapprove']);
+        $query = "UPDATE comments SET comment_status = 'unapproved' WHERE comment_id = ?";
+
+        $stmt = mysqli_prepare($connection, $query);
+        confirmPreparation($stmt);
+
+        mysqli_stmt_bind_param($stmt, 'i', $comment_id_to_unapprove);
+        mysqli_stmt_execute($stmt);
+        confirmExecution($stmt);
+
+        mysqli_stmt_close($stmt);
+
+        header("Location: comments.php");
+    }
+
     if (isset($_GET['delete'])) {
         confirmConnection($connection);
         $comment_id = htmlspecialchars($_GET['delete']);
 
         // Delete by comment_id query
         $query = "DELETE FROM comments WHERE comment_id = ? ";
+
         $stmt = mysqli_prepare($connection, $query);
         confirmPreparation($stmt);
+
         mysqli_stmt_bind_param($stmt, 'i', $comment_id);
         mysqli_stmt_execute($stmt);
         confirmExecution($stmt);
 
-        // DELETE does not require a $result check
         mysqli_stmt_close($stmt);
     }
+
     ?>
 
     <?php
     confirmConnection($connection);
 
     // Select all comments query
-    $query = "SELECT * FROM comments";
+    $query = "SELECT * FROM comments ORDER BY comment_date DESC";
     $stmt = mysqli_prepare($connection, $query);
     confirmPreparation($stmt);
     mysqli_stmt_execute($stmt);
