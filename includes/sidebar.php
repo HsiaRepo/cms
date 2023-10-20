@@ -40,8 +40,9 @@
 
                     // Loop category titles for sidebar
                     while ($row = mysqli_fetch_assoc($result)) {
+                        $cat_id = htmlspecialchars($row['cat_id']);
                         $cat_title = htmlspecialchars($row['cat_title']);
-                        echo "<li><a href='#'>{$cat_title}</a></li>";
+                        echo "<li><a href='category.php?category={$cat_id}'>{$cat_title}</a></li>";
                     }
                     ?>
 
