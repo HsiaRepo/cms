@@ -14,13 +14,13 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Posts
+                        Comments
                         <small>Admin View</small>
                     </h1>
 
                     <?php
 
-                    // Switching admin display
+                    // Switching admin display based on the 'source' parameter
                     if (isset($_GET['source'])) {
                         $source = $_GET['source'];
                     } else {
@@ -29,31 +29,31 @@
 
                     switch ($source) {
 
-                        case 'add_post';
-                            include "includes/add_post.php";
+                        case 'approve_comment';
+                            // TODO Code or inclusion for approving a comment can go here
                             break;
 
-                        case 'edit_post';
-                            include "includes/edit_post.php";
+                        case 'unapprove_comment';
+                            // TODO Code or inclusion for unapproving a comment can go here
                             break;
 
-                        case '200';
-                            echo 'NICE 200';
+                        case 'edit_comment';
+                            include "includes/edit_comment.php"; // TODO
                             break;
 
                         default:
                             include "includes/view_all_comments.php";
                             break;
-
                     }
-
                     ?>
 
                 </div>
             </div>
             <!-- /.row -->
+
         </div>
         <!-- /.container-fluid -->
+
     </div>
     <!-- /#page-wrapper -->
 
