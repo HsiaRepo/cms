@@ -15,18 +15,24 @@
         <!-- Blog Entries Column -->
         <div class="col-md-8">
 
-            <h1 class="page-header">
-                Page Heading
-                <small>Page Subheading</small>
-            </h1>
-
             <?php
+
+            if (isset($_GET['category'])) {
+
+                $post_category_id = $_GET['category'];
+
+            }
 
             confirmConnection($connection);
 
-            // Select all posts query
-            $query = "SELECT * FROM posts";
-            $result = mysqli_query($connection, $query);
+            // Select post by category_id query
+            $query = "SELECT * FROM posts WHERE post_category_id=?";
+            $stmt = mysqli_prepare($connection, $query);
+            confirmPreparation($stmt);
+            mysqli_stmt_bind_param($stmt, 'i', $post_category_id);
+            mysqli_stmt_execute($stmt);
+            confirmExecution($stmt);
+            $result = mysqli_stmt_get_result($stmt);
             confirmResult($result);
 
             // Loop to show all posts' info

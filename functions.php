@@ -1,6 +1,7 @@
 <?php
 
-function confirmConnection($connection) {
+function confirmConnection($connection)
+{
 
     if (!$connection) {
         error_log("Connection failed: " . mysqli_connect_error());
@@ -8,7 +9,8 @@ function confirmConnection($connection) {
     }
 }
 
-function confirmPreparation($stmt) {
+function confirmPreparation($stmt)
+{
     global $connection;
 
     if (!$stmt) {
@@ -17,7 +19,8 @@ function confirmPreparation($stmt) {
     }
 }
 
-function confirmExecution($stmt) {
+function confirmExecution($stmt)
+{
 
     if (mysqli_stmt_errno($stmt)) {
         error_log("Statement execution failed: " . mysqli_stmt_error($stmt));
@@ -25,7 +28,8 @@ function confirmExecution($stmt) {
     }
 }
 
-function confirmResult($result) {
+function confirmResult($result)
+{
     global $connection;
 
     if (!$result) {
@@ -35,7 +39,8 @@ function confirmResult($result) {
 }
 
 // Insert new categories into the database
-function insertCategories() {
+function insertCategories()
+{
     global $connection;
 
     // Submit check
@@ -52,16 +57,11 @@ function insertCategories() {
 
         // Insert by cat_title query
         $query = "INSERT INTO categories(cat_title) VALUES (?)";
-
         $stmt = mysqli_prepare($connection, $query);
         confirmPreparation($stmt);
-
-        // TODO: INSERT -> never uses $result
         mysqli_stmt_bind_param($stmt, 's', $cat_title);
-
-        $result = mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_execute($stmt); // INSERT does not require a $result check
         confirmExecution($stmt);
-
         mysqli_stmt_close($stmt);
     }
 }
@@ -74,13 +74,10 @@ function findAllCategories()
 
     // Select all categories query
     $query = "SELECT * FROM categories";
-
     $stmt = mysqli_prepare($connection, $query);
     confirmPreparation($stmt);
-
     mysqli_stmt_execute($stmt);
     confirmExecution($stmt);
-
     $result = mysqli_stmt_get_result($stmt);
     confirmResult($result);
 
@@ -106,19 +103,16 @@ function deleteCategories()
 
     if (isset($_GET['delete'])) {
 
-    confirmConnection($connection);
-
+        confirmConnection($connection);
         $delete_cat_id = intval($_GET['delete']); // Ensuring it's an integer
 
         // Delete category by cat_id query
         $query = "DELETE FROM categories WHERE cat_id = ?";
         $stmt = mysqli_prepare($connection, $query);
         confirmPreparation($stmt);
-
         mysqli_stmt_bind_param($stmt, 'i', $delete_cat_id);
-        $result = mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_execute($stmt); // DELETE does not require a $result check
         confirmExecution($stmt);
-
         mysqli_stmt_close($stmt);
 
         // Redirect to categories page

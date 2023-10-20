@@ -15,18 +15,24 @@
         <!-- Blog Entries Column -->
         <div class="col-md-8">
 
-            <h1 class="page-header">
-                Page Heading
-                <small>Page Subheading</small>
-            </h1>
-
             <?php
 
             confirmConnection($connection);
 
-            // Select all posts query
-            $query = "SELECT * FROM posts";
-            $result = mysqli_query($connection, $query);
+            if (isset($_GET['post_id'])) {
+
+                $post_id = $_GET['post_id'];
+
+            }
+
+            // Select post by id query
+            $query = "SELECT * FROM posts WHERE post_id=?";
+            $stmt = mysqli_prepare($connection, $query);
+            confirmPreparation($stmt);
+            mysqli_stmt_bind_param($stmt, 'i', $post_id);
+            mysqli_stmt_execute($stmt);
+            confirmExecution($stmt);
+            $result = mysqli_stmt_get_result($stmt);
             confirmResult($result);
 
             // Loop to show all posts' info
@@ -36,7 +42,7 @@
                 $post_author = htmlspecialchars($row['post_author']);
                 $post_date = htmlspecialchars($row['post_date']);
                 $post_image = htmlspecialchars($row['post_image']);
-                $post_content = substr(htmlspecialchars($row['post_content']),0,50);
+                $post_content = htmlspecialchars($row['post_content']);
                 ?>
 
                 <!-- Exit PHP tags to fill in HTML (still in while loop) -->
@@ -62,6 +68,8 @@
 
             <!-- TODO Pager -->
             <?php /* include "includes/pager.php"; */ ?>
+
+            <?php include "comments.php"; ?>
 
         </div>
 

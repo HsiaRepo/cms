@@ -10,27 +10,21 @@
                 <span class="icon-bar">Toggle navigation 3</span>
                 <span class="icon-bar">Toggle navigation 4</span>
             </button>
-            <a class="navbar-brand" href="#">Page Navigation</a>
+            <a class="navbar-brand" href="index.php">CMS Home</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <?php
 
-                if (!$connection) {
-                    error_log("Connection failed: " . mysqli_connect_error());
-                    die("Sorry, we're experiencing technical difficulties.");
-                }
+                confirmConnection($connection);
 
                 // Select all categories query
                 $query = "SELECT * FROM categories";
-
                 $stmt = mysqli_prepare($connection, $query);
                 confirmPreparation($stmt);
-
                 mysqli_stmt_execute($stmt);
                 confirmExecution($stmt);
-
                 $result = mysqli_stmt_get_result($stmt);
                 confirmResult($result);
 

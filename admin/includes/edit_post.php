@@ -35,7 +35,7 @@ if (isset($_POST['update_post'])) {
         post_category_id = ?, 
         post_title = ?, 
         post_author = ?, 
-        post_image = ?, 
+        post_image = ?,  
         post_content = ?, 
         post_tags = ?, 
         post_status = ? 
@@ -43,13 +43,10 @@ if (isset($_POST['update_post'])) {
 
     $stmt = mysqli_prepare($connection, $query);
     confirmPreparation($stmt);
-
     mysqli_stmt_bind_param($stmt, "issssssi",
         $post_category_id, $post_title, $post_author,
         $post_image, $post_content, $post_tags,
-        $post_status, $get_post_id
-    );
-
+        $post_status, $get_post_id);
     mysqli_stmt_execute($stmt);
     confirmExecution($stmt);
     mysqli_stmt_close($stmt);
@@ -87,6 +84,7 @@ if (isset($_GET['post_id'])) {
                     while ($cat_row = mysqli_fetch_assoc($all_categories)) {
                         $current_cat_id = intval($cat_row['cat_id']);
                         $current_cat_title = htmlspecialchars($cat_row['cat_title']);
+
                         if ($current_cat_id == $post_category_id) {
                             echo "<option value='{$current_cat_id}' selected>{$current_cat_title}</option>";
                         } else {
@@ -116,7 +114,8 @@ if (isset($_GET['post_id'])) {
             </div>
             <div class="form-group">
                 <label for="post_content">Post Content</label>
-                <textarea class="form-control" name="post_content" id="" cols="30" rows="10"><?php echo $post_content ?></textarea>
+                <textarea class="form-control" name="post_content" id="" cols="30"
+                          rows="10"><?php echo $post_content ?></textarea>
             </div>
             <div>
                 <input class="btn btn-primary" type="submit" name="update_post" value="Update Post">
