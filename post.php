@@ -69,7 +69,7 @@
             <!-- TODO Pager -->
             <?php /* include "includes/pager.php"; */ ?>
 
-            <?php include "comments.php"; ?>
+            <?php include "includes/comments.php"; ?>
 
         </div>
 

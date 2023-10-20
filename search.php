@@ -43,8 +43,6 @@
                     echo "<h1> NO RESULT </h1>";
                 } else {
                     while ($row = mysqli_fetch_assoc($result)) {
-
-                        // Using htmlspecialchars for output escaping
                         $post_title = htmlspecialchars($row['post_title']);
                         $post_author = htmlspecialchars($row['post_author']);
                         $post_date = htmlspecialchars($row['post_date']);
@@ -52,7 +50,7 @@
                         $post_content = htmlspecialchars($row['post_content']);
                         ?>
 
-                        <!-- First Blog Post -->
+                        <!-- Generate Blog Post -->
                         <h2>
                             <a href="#"><?php echo $post_title; ?></a>
                         </h2>
@@ -64,7 +62,7 @@
                         <img class="img-responsive" src="images/<?php echo $post_image; ?>" alt="">
                         <hr>
                         <p><?php echo $post_content; ?></p>
-                        <a class="btn btn-primary" href="#">Read More <span
+                        <a class="btn btn-primary" href="category.php">Read More <span
                                     class="glyphicon glyphicon-chevron-right"></span></a>
 
                         <hr>
