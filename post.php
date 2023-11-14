@@ -19,6 +19,20 @@
 
             confirmConnection($connection);
 
+            if(isset($_POST['submit_comment'])) {
+                // Extract POST data
+                $comment_author = mysqli_real_escape_string($connection, $_POST['comment_author']);
+                $comment_email = mysqli_real_escape_string($connection, $_POST['comment_email']);
+                $comment_content = mysqli_real_escape_string($connection, $_POST['comment_content']);
+                $comment_post_id = (int)$_POST['post_id'];
+
+                // Insert comment into the database
+                $query = "INSERT INTO comments (comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) VALUES (?, ?, ?, ?, 'unapproved', NOW())";
+                $stmt = mysqli_prepare($connection, $query);
+                mysqli_stmt_bind_param($stmt, 'isss', $comment_post_id, $comment_author, $comment_email, $comment_content);
+                mysqli_stmt_execute($stmt);
+            }
+
             if (isset($_GET['post_id'])) {
 
                 $post_id = $_GET['post_id'];
@@ -68,6 +82,28 @@
 
             <!-- TODO Pager -->
             <?php /* include "includes/pager.php"; */ ?>
+
+            <!-- Comment Form -->
+            <div class="well">
+                <h4>Leave a Comment:</h4>
+                <form action="" method="post">
+                    <div class="form-group">
+                        <label for="comment_author">Name:</label>
+                        <input type="text" class="form-control" name="comment_author">
+                    </div>
+                    <div class="form-group">
+                        <label for="comment_email">Email:</label>
+                        <input type="email" class="form-control" name="comment_email">
+                    </div>
+                    <div class="form-group">
+                        <label for="comment_content">Your Comment:</label>
+                        <textarea class="form-control" name="comment_content" rows="3"></textarea>
+                    </div>
+                    <input type="hidden" name="post_id" value="<?php echo $post_id; ?>">
+                    <button type="submit" name="submit_comment" class="btn btn-primary">Submit Comment</button>
+                </form>
+
+            </div>
 
             <?php include "includes/comments.php"; ?>
 
